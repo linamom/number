@@ -7,6 +7,7 @@ services:
       POSTGRES_USER: ${DB_USER:-postgres}
       POSTGRES_PASSWORD: ${DB_PASS:-postgres}
       POSTGRES_DB: ${DB_NAME:-postgres}
+      TZ: Asia/Seoul
     ports:
       - "5432:5432"
     volumes:
@@ -27,6 +28,7 @@ services:
       - DB_USER=${DB_USER:-postgres}
       - DB_PASS=${DB_PASS:-postgres}
       - DB_NAME=${DB_NAME:-postgres}
+      - TZ=Asia/Seoul
     command: >
       bash -c "sleep 5 && python app.py"
 
@@ -38,6 +40,8 @@ services:
       - backend
     ports:
       - "80:80"
+    environment:
+      - TZ=Asia/Seoul
 
 volumes:
   postgres_data:
