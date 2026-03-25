@@ -123,10 +123,6 @@ button:active {
     padding: 0.75rem;
 }
 
-.btn-reset:hover {
-    color: var(--text-primary);
-}
-
 .btn-save {
     grid-column: span 2;
     background: linear-gradient(135deg, var(--accent-blue), var(--accent-indigo));
@@ -140,13 +136,12 @@ button:active {
     box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
 }
 
-.btn-save:hover {
-    filter: brightness(1.1);
-    box-shadow: 0 8px 12px rgba(59, 130, 246, 0.3);
-}
-
 .btn-save.success {
     background: linear-gradient(135deg, var(--success), #059669);
+}
+
+.btn-reset:hover, .btn-save:hover {
+    filter: brightness(1.1);
 }
 
 /* Animations */
@@ -165,7 +160,6 @@ button:active {
     100% { transform: scale(1); }
 }
 
-/* Decorative Orbs */
 .orb {
     position: absolute;
     width: 300px;

@@ -1,13 +1,43 @@
-version: '3.8'
-
 services:
-  web:
-    build: .
+  db:
+    image: postgres:13-alpine
+    container_name: number_db
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASS:-postgres}
+      POSTGRES_DB: ${DB_NAME:-postgres}
     ports:
-      - "5000:5000"
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    container_name: number_backend
+    restart: always
+    depends_on:
+      - db
     env_file:
       - .env
-    volumes:
-      - .:/app
-    # Run the Flask server in a way that respects host 0.0.0.0
-    command: python app.py
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_HOST=db
+      - DB_USER=${DB_USER:-postgres}
+      - DB_PASS=${DB_PASS:-postgres}
+      - DB_NAME=${DB_NAME:-postgres}
+    command: >
+      bash -c "sleep 5 && python app.py"
+
+  frontend:
+    build: ./frontend
+    container_name: number_frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+
+volumes:
+  postgres_data:
